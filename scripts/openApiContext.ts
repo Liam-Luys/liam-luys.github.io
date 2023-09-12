@@ -1,8 +1,8 @@
 import OpenAPIParser from '@readme/openapi-parser'
 import { flatten, groupBy } from 'lodash'
 import { z } from 'zod'
-import metadataJson from '../public/static/openApi/metadata.json'
-import openApiJson from '../public/static/openApi/openapi.json'
+import metadataJson from '../documentation-master/public/static/openApi/metadata.json'
+import openApiJson from '../documentation-master/public/static/openApi/openapi.json'
 import { JSONSchemaType, isDefined, isHttpMethod } from './generateApiDocumentationPage.types'
 
 const Schema = z.object({
