@@ -1,0 +1,80 @@
+import { Callout } from 'nextra/components'
+
+# Execute Code
+
+This instruction is to execute custom code in a node. For example, fetching and displaying a user-submitted city’s weather information using an API.
+
+<Callout>
+  **Generative AI** <br/>
+  Using natural language you can instruct AI to generate the needed code for your bot.
+</Callout>
+
+Example 1:
+
+**"I want to find the difference between the variables startDate and the endDate"**
+
+Generated Output:
+
+```typescript
+const startDate = luxon.fromISO(workflow.startDate) // convert the startDate string to a luxon DateTime object
+const endDate = luxon.fromISO(workflow.endDate) // convert the endDate string to a luxon DateTime object
+const diffInDays = endDate.diff(startDate, 'days').toObject().days // find the difference between the two dates in days
+// store the difference in days in the workflow variable 'dateDiff' as requested
+workflow.dateDiff = diffInDays
+```
+
+<br />
+Example 2:
+
+**"I want to get all my issues from Jira filtered by what is not done"**<br/>
+
+Generated Output:
+
+```typescript
+const jiraUrl = 'https://your-jira-url.com'
+const jiraUsername = 'your-jira-username'
+const jiraPassword = 'your-jira-password'
+
+// get the current date and time in ISO format
+const now = luxon.local().toISO()
+
+// create the JQL query to get all issues that are not done
+const jql = `status != Done AND updated >= "${now}" ORDER BY updated DESC`
+
+// set the request headers for Jira API
+const headers = {
+  'Content-Type': 'application/json',
+  Authorization: `Basic ${Buffer.from(`${jiraUsername}:${jiraPassword}`).toString('base64')}`,
+}
+
+// make the request to Jira API to get all issues that are not done
+const response = await axios.get(`${jiraUrl}/rest/api/2/search?jql=${jql}`, { headers })
+
+// filter the response to only keep the issues that are not done
+const issues = _.filter(response.data.issues, (issue) => issue.fields.status.name !== 'Done')
+```
+
+<br />
+#### Advanced
+
+You can build your own code here, using below node packages:
+
+- [Axios](https://axios-http.com/docs/api_intro)
+- [Lodash](https://lodash.com/docs/4.17.15)
+- [Moment Luxon](https://moment.github.io/luxon/#/?id=luxon)
+
+Using the above packages, you will be able fetch and display the user-submitted city's weather information using an API.
+
+#### Transitioning from Another Language to Botpress
+
+If you're transitioning from another programming language to Botpress, we've got you covered. With the power of ChatGPT, converting simple code snippets, such as making API requests, is now easier than ever. We've prepared a sample snippet that you can adapt to your own code while working within Botpress.
+
+Step 1: Take your existing code snippet from another programming language that performs an API request. This could be in a language like Python, C#, or any other language you're coming from.
+
+Step 2: Paste the code snippet you have into ChatGPT and add this below. 
+
+```text
+Convert the above to deno, using the axios library. Save the variable results to the workflow object (global object available in the code block). You can use await axios directly without the "async" keyword. Axios is already imported, no need to import it again.
+```
+
+Step 3: Paste the result of ChatGPT into the Execute Code Card.
